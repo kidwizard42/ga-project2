@@ -5,7 +5,6 @@ const express = require('express');
 const res = require('express/lib/response');
 const methodOverride  = require('method-override');
 const mongoose = require ('mongoose');
-const postCollection = require('./models/post.js');
 const app = express ();
 const db = mongoose.connection;
 require('dotenv').config()
@@ -68,6 +67,38 @@ app.get('/show', (req,res) => {
     res.render('show.ejs')
 })
 
+app.post('/makePost', (req, res) => {
+
+    Post.create(req.body, (err,newPost) => {
+        // console.log(err);
+        // console.log("ayooooooooooooooooooo");
+        // res.send(newPost)
+        res.redirect('/index')
+        
+    })
+})
+
+// route to edit.ejs. will give page dedicated to that specific post
+app.get("/edit/poster/:id", (req, res) => {
+    Post.findById(req.params.id, (err, thePost) => {
+        res.render("edit.ejs", {
+            post:thePost
+        })
+    })
+})
+
+// route to update posts after being edited on edit.ejs
+app.put('/updatePostById/:id',(req,res) => {
+
+    Post.findByIdAndUpdate(req.params.id, req.body, {new:true}, (error,updatedPost) => {
+        res.redirect('/index')
+    })
+})
+app.delete('/deleteById/:id', (req, res) => {
+    Post.findByIdAndRemove(req.params.id, (error, data) => {
+      res.redirect('/index')
+    })
+  })
 //___________________
 //Listener
 //___________________

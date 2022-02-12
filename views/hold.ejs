@@ -25,3 +25,20 @@
     </div> 
 </body>
 </html>
+
+
+app.get("/edit/poster/:id", (req, res) => {
+    Post.findById(req.params.id, (err, thePost) => {
+        res.render("edit.ejs", {
+            post:thePost
+        })
+    })
+})
+
+// route to update posts after being edited on edit.ejs
+app.put('/updatePostById/:id',(req,res) => {
+
+    Post.findByIdAndUpdate(req.params.id, req.body, {new:true}, (error,updatedPost) => {
+        res.redirect('/index')
+    })
+})

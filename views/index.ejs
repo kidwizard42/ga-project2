@@ -9,13 +9,32 @@
 <body>
     <nav class="main-nav"> </nav>
 
-    <% for ( i of post){ %>
+    <div class="makePost">
+        <form action="/makePost" method="POST"> 
+          <label for="poster"> Title but actually poster:</label>  <input type="text" name="poster"  id="poster"> <br>
+             
+          <label for="content"> Type Here</label><input type="text" name="content" >
+
+          <input type="submit" name="submit" id="">
+        
+        </form>
+    </div>
+
+    <% for ( let i= post.length-1; i>=0; i-- ){ %>
         <div>
-          <%=  i.poster %>
+            <%=  post[i].poster %>  :
+            <%= post[i].content %>
+            <!-- EDIT POST FORM -->
+            <form action="/edit/poster/<%= post[i].id%>" method="get">
+                <input type="submit" name="Edit Here" value="Edit">
+            </form>
+            <!-- DELETE POST FORM -->
+            <form action="/deleteById/<%= post[i].id %>?_method=DELETE" method="post">
+            <input type="submit" name="delete" value="Delete"></form>
         </div>
     <% } %>
-
-    <a href="/edit"> to edit</a>
-    <a href="/show"> to show</a>
+ 
+    <!-- <a href="/edit"> to edit</a>
+    <a href="/show"> to show</a> -->
 </body>
 </html>
