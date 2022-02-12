@@ -2,11 +2,16 @@
 //Dependencies
 //___________________
 const express = require('express');
+const res = require('express/lib/response');
 const methodOverride  = require('method-override');
 const mongoose = require ('mongoose');
+const postCollection = require('./models/post.js');
 const app = express ();
 const db = mongoose.connection;
 require('dotenv').config()
+const Post = require('./models/post.js')
+
+
 //___________________
 //Port
 //___________________
@@ -48,9 +53,20 @@ app.use(methodOverride('_method'));// allow POST, PUT and DELETE from a form
 // Routes
 //___________________
 //localhost:3000
-app.get('/' , (req, res) => {
-  res.send('Hello World!');
+app.get('/index', (req,res) => {
+
+    Post.find({}, (err, content) => {
+        res.render("index.ejs",{post:content} )
+    })
+    
+})
+app.get('/edit' , (req, res) => {
+  res.render('edit.ejs');
 });
+
+app.get('/show', (req,res) => {
+    res.render('show.ejs')
+})
 
 //___________________
 //Listener
