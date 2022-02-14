@@ -94,6 +94,7 @@ app.put('/updatePostById/:id',(req,res) => {
         res.redirect('/index')
     })
 })
+// dsfa
 app.delete('/deleteById/:id', (req, res) => {
     Post.findByIdAndRemove(req.params.id, (error, data) => {
       res.redirect('/index')
