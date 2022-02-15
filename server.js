@@ -9,6 +9,8 @@ const app = express ();
 const db = mongoose.connection;
 require('dotenv').config()
 const Post = require('./models/post.js')
+const User = require('./models/user.js')
+const session = require('express-session')
 
 
 //___________________
@@ -44,7 +46,16 @@ app.use(express.static('public'));
 app.use(express.urlencoded({ extended: false }));// extended: false - does not allow nested objects in query strings
 app.use(express.json());// returns middleware that only parses JSON - may or may not need it depending on your project
 
-//use method override
+// used to keep people logged in.
+app.use(session({
+    secret: 'holding accounts',
+    resave: false,
+    saveUninitialized: true,
+    // cookie: { secure: true }
+  }))
+
+
+//allows use of method override
 app.use(methodOverride('_method'));// allow POST, PUT and DELETE from a form
 
 
@@ -52,13 +63,85 @@ app.use(methodOverride('_method'));// allow POST, PUT and DELETE from a form
 // Routes
 //___________________
 //localhost:3000
+
+// The homepage. login or create
+app.get('/login',(req,res) => {
+    // if(req.session.user){
+    //     console.log(req.session.user);
+        res.render("login.ejs")
+    // } else{res.send('error')}
+    
+})
+
+app.post('/login/user',(req,res) =>{
+
+    User.findOne({user:req.body.user}, (err, person) => {
+        
+        if(!person){
+           res.redirect('/login')
+        }else if (person){
+
+            req.session.user = person.user
+            res.render('index.ejs')
+
+        }
+        
+            // if(!person){
+            //     console.log(err);
+            // // console.log('yikes')
+            // } else if(err){
+            //     console.log('brooooooo')
+            // }
+        
+            // req.session.user = person.user
+            // if(req.session.user){ 
+            // res.redirect('/index')
+            
+            // console.log(req.session)
+            // res.redirect('/login')
+         
+    })
+   
+    // if(User.find({user:req.body})){
+    //     res.send('you exist')
+    // } else{ res.send("you don't exist")}
+    // res.send(req.body)
+    
+} )
+
+app.post('/create/user',(req,res) => {
+    // res.send(req.body)
+    User.create( req.body, (err, newUser) => {
+        // console.log(err);
+        // res.send(newUser)
+        // User.findById(newUser._id, (err, account) =>{
+            // res.send(account)
+
+
+            // res.redirect('/temp', {
+            //     test:newUser
+            // })
+            
+
+            res.redirect('login/')
+
+
+        // } )
+        
+    })
+})
+
 app.get('/index', (req,res) => {
 
+    // User.find()
     Post.find({}, (err, content) => {
-        res.render("index.ejs",{post:content} )
+
+
+        res.render("index.ejs",{post:content})
     })
     
 })
+
 app.get('/edit' , (req, res) => {
   res.render('edit.ejs');
 });
@@ -94,7 +177,7 @@ app.put('/updatePostById/:id',(req,res) => {
         res.redirect('/index')
     })
 })
-// dsfa
+
 app.delete('/deleteById/:id', (req, res) => {
     Post.findByIdAndRemove(req.params.id, (error, data) => {
       res.redirect('/index')
