@@ -9,7 +9,7 @@ const signOut = document.querySelector(".signOut")
 
 // does not work
 signOut.addEventListener('click', () =>{
-alert('hello')
+    alert('hello')
 } )
 
 

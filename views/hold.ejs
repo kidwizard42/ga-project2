@@ -11,7 +11,7 @@
     <h1>edit.ejs</h1>
 
     <div class="editPost">
-        <form action="/updatePostById/<%= post.id %>?_method=PUT" method="post"> 
+        <form action="/updatePostById/<%= post.id %>?_method=PUT" method="POST"> 
 
         <label for="poster"> Edit title:</label>  
         <input type="text" name="poster"  id="poster" value='<%=post.poster%>' > 

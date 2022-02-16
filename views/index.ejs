@@ -5,12 +5,14 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- wonder if defer is not working? -->
-    <script  src="main.js" defer ></script> 
+    
+    
     
     <title>Social Media</title>
 </head>
 <body>
-    <nav class="main-nav"> <form action="/logout" method="post"> <input type="submit" name="logout" value="Log Out"></form> </nav>
+    <nav class="main-nav"> <form action="/logout" method="POST"> <input type="submit" name="logout" value="Log Out"></form>  
+        <button class="signOut"> signout test</button></nav>
 
     <h1>welcome, <%= user %> </h1>
 
@@ -33,11 +35,11 @@
             <!-- needs to be == not === because they're stored differently -->
             <% if (post[i].user == id ) { %>
 
-            <form action="/edit/poster/<%= post[i].id%>" method="get">
+            <form action="/edit/poster/<%= post[i].id%>" method="GET">
                 <input type="submit" name="Edit Here" value="Edit">
             </form>
             <!-- DELETE POST FORM -->
-            <form action="/deleteById/<%= post[i].id %>?_method=DELETE" method="post">
+            <form action="/deleteById/<%= post[i].id %>?_method=DELETE" method="POST">
             <input type="submit" name="delete" value="Delete"></form>
 
             <form action="/"></form>
@@ -47,6 +49,6 @@
  
     <a href="/edit"> to edit</a>
     <a href="/show"> to show</a>
-  
+    <script defer src="main.js"  ></script> 
 </body>
 </html>
