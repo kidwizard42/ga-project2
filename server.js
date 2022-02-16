@@ -64,7 +64,7 @@ app.use(methodOverride('_method'));// allow POST, PUT and DELETE from a form
 //localhost:3000
 
 // The homepage. login or create
-app.get('/login',(req,res) => {
+app.get('/',(req,res) => {
         res.render("login.ejs")
 })
 
@@ -87,7 +87,7 @@ app.post('/login/user',(req,res) =>{
 app.post('/create/user',(req,res) => {
     // res.send(req.body)
     User.create( req.body, (err, newUser) => {
-            res.redirect('/login')
+            res.redirect('/')
     })
 })
 
@@ -95,7 +95,7 @@ app.post('/create/user',(req,res) => {
 app.post('/logout',(req,res) => {
     req.session.user = null
     req.session.userId = null
-    res.redirect('login')
+    res.redirect('/')
 })
 
 // loads index page if you have an account
@@ -124,11 +124,9 @@ app.get('/show', (req,res) => {
     } else {
         res.send('you are not signed in')
     }
-    
 })
 
 app.post('/makePost', (req, res) => {
-
     // puts poster  & poster ID into the post schema
     req.body.poster = req.session.user
     req.body.user = req.session.userId 
