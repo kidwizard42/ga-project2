@@ -12,7 +12,6 @@ const Post = require('./models/post.js')
 const User = require('./models/user.js')
 const session = require('express-session')
 
-
 //___________________
 //Port
 //___________________
@@ -31,9 +30,9 @@ const MONGODB_URI = process.env.MONGODB_URI;
 mongoose.connect(MONGODB_URI);
 
 // Error / success
-db.on('error', (err) => console.log(err.message + ' is Mongod not running?'));
-db.on('connected', () => console.log('mongo connected: ', MONGODB_URI));
-db.on('disconnected', () => console.log('mongo disconnected'));
+// db.on('error', (err) => console.log(err.message + ' is Mongod not running?'));
+// db.on('connected', () => console.log('mongo connected: ', MONGODB_URI));
+// db.on('disconnected', () => console.log('mongo disconnected'));
 
 //___________________
 //Middleware
@@ -65,99 +64,79 @@ app.use(methodOverride('_method'));// allow POST, PUT and DELETE from a form
 //localhost:3000
 
 // The homepage. login or create
-app.get('/login',(req,res) => {
-    // if(req.session.user){
-    //     console.log(req.session.user);
+app.get('/create/login',(req,res) => {
         res.render("login.ejs")
-    // } else{res.send('error')}
-    
 })
 
+// a post route if you attempt to login.
 app.post('/login/user',(req,res) =>{
 
     User.findOne({user:req.body.user}, (err, person) => {
         
         if(!person){
+            // alert('incorrect username or password. Please try again')
            res.redirect('/login')
         }else if (person){
-
             req.session.user = person.user
-            res.render('index.ejs')
-
-        }
-        
-            // if(!person){
-            //     console.log(err);
-            // // console.log('yikes')
-            // } else if(err){
-            //     console.log('brooooooo')
-            // }
-        
-            // req.session.user = person.user
-            // if(req.session.user){ 
-            // res.redirect('/index')
-            
-            // console.log(req.session)
-            // res.redirect('/login')
-         
+            req.session.userId = person._id
+            res.redirect('/index')
+        }  
     })
-   
-    // if(User.find({user:req.body})){
-    //     res.send('you exist')
-    // } else{ res.send("you don't exist")}
-    // res.send(req.body)
-    
-} )
-
+})
+// create a new account
 app.post('/create/user',(req,res) => {
     // res.send(req.body)
     User.create( req.body, (err, newUser) => {
-        // console.log(err);
-        // res.send(newUser)
-        // User.findById(newUser._id, (err, account) =>{
-            // res.send(account)
-
-
-            // res.redirect('/temp', {
-            //     test:newUser
-            // })
-            
-
-            res.redirect('login/')
-
-
-        // } )
-        
+            res.redirect('/login')
     })
 })
 
-app.get('/index', (req,res) => {
+// sign out
+app.post('/logout',(req,res) => {
+    req.session.user = null
+    req.session.userId = null
+    res.redirect('login')
+})
 
-    // User.find()
+// loads index page if you have an account
+app.get('/index', (req,res) => {
+    if (req.session.user){
     Post.find({}, (err, content) => {
 
-
-        res.render("index.ejs",{post:content})
+        res.render("index.ejs",{
+            user:req.session.user,
+            post:content,
+            id: req.session.userId
+        })
     })
-    
+} else {res.send('please log in')} 
 })
+
 
 app.get('/edit' , (req, res) => {
   res.render('edit.ejs');
 });
 
 app.get('/show', (req,res) => {
-    res.render('show.ejs')
+
+    if (req.session.user){
+        res.render('show.ejs')
+    } else {
+        res.send('you are not signed in')
+    }
+    
 })
 
 app.post('/makePost', (req, res) => {
 
+    // puts poster  & poster ID into the post schema
+    req.body.poster = req.session.user
+    req.body.user = req.session.userId 
+    
+// res.send(req.body)
+// creates the post w user and content
     Post.create(req.body, (err,newPost) => {
-        // console.log(err);
-        // console.log("ayooooooooooooooooooo");
-        // res.send(newPost)
-        res.redirect('/index')
-        
+        res.redirect('./index')
     })
 })
 
