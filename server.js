@@ -64,7 +64,7 @@ app.use(methodOverride('_method'));// allow POST, PUT and DELETE from a form
 //localhost:3000
 
 // The homepage. login or create
-app.get('/create/login',(req,res) => {
+app.get('/login',(req,res) => {
         res.render("login.ejs")
 })
 
