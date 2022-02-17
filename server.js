@@ -176,18 +176,28 @@ app.post('/makePost', (req, res) => {
     
 // res.send(req.body)
 // creates the post w user and content
-    Post.create(req.body, (err,newPost) => {
+    Post.create(req.body,  async (err,newPost) => {
 
         // DOES NOT WORK. Should add the post id to the array of the user but does not.
         //  push and unshift gave errors but splice doesnt giv work 
-        User.findOne({user:newPost.poster}, (err, originalUser) =>  {
-            // console.log(originalUser.posts)
-            // console.log(newPost._id);
-            originalUser.posts.splice(0,0,newPost._id)
-            console.log(originalUser)
-            console.log(originalUser.posts)
-            res.redirect('./index')
-        })
+        // UPDATE PUSH NO LONGER GIVES ME ISSUES BUT STILL NOTHING GETS PUSHED TO MY ARRAY
+
+// uncomment this block
+//         User.findOne({user:newPost.poster}, (err, originalUser) =>  {
+//             // console.log(originalUser.posts)
+//             // console.log(newPost._id);
+//             // originalUser.posts.splice(0,0,newPost._id)
+//             originalUser.posts.push(newPost._id)
+// // YEOOOOOOO ORIGINALLY IT WAS JUST FIND. WE NEED TO TRY THE UPDATE AND SEE IF WE CAN PASS A PUSH INT
+//             console.log(originalUser)
+//             console.log(originalUser.posts)
+//             res.redirect('./index')
+//         })
+
+
+        // This array need to be called  finafuckingly
+       await User.findOneAndUpdate({user:newPost.poster}, {$push:{posts:newPost._id}})
+        res.redirect('/index')
         
     })
 })
@@ -218,6 +228,7 @@ app.delete('/deleteById/:id', (req, res) => {
 //Listener
 //___________________
 app.listen(PORT, () => console.log( 'Listening on port:', PORT));
+
 
 
 
