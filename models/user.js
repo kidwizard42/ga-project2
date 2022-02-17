@@ -8,27 +8,14 @@ const userSchema = mongoose.Schema({
         required: true,
         unique: true
     },
-    // email: {
-    //     type: String,
-    //     trim: true,
-    //     unique: true
-    // },
-    // password: {
-    //     type: String,
-    //     required: true
-    // },
-    // tokens: [{
-    //     access: {
-    //         type: String
-    //     },
-    //     token: {
-    //         type: String
-    //     }
-    // }],
-    // posts: [{
-    //     type: mongoose.Schema.Types.ObjectId,
-    //     ref: 'Post'
-    // }]
+    password: {
+        type: String,
+        required: true
+    },
+    posts: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Post'
+    }]
 }, {
     timestamps: true
 });

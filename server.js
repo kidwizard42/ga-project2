@@ -11,6 +11,10 @@ require('dotenv').config()
 const Post = require('./models/post.js')
 const User = require('./models/user.js')
 const session = require('express-session')
+const flash = require('connect-flash')
+const bcrypt = require('bcrypt')
+
+
 
 //___________________
 //Port
@@ -47,13 +51,14 @@ app.use(express.json());// returns middleware that only parses JSON - may or may
 
 // used to keep people logged in.
 app.use(session({
-    secret: 'holding accounts',
+    secret:"heTYellowbusSaIdwhatt64fse3342fhgg77673nd3n4fdassentenc,",
     resave: false,
     saveUninitialized: true,
     // cookie: { secure: true }
   }))
 
-
+// can now use flash
+app.use(flash());
 //allows use of method override
 app.use(methodOverride('_method'));// allow POST, PUT and DELETE from a form
 
@@ -63,31 +68,66 @@ app.use(methodOverride('_method'));// allow POST, PUT and DELETE from a form
 //___________________
 //localhost:3000
 
+
 // The homepage. login or create
 app.get('/',(req,res) => {
-        res.render("login.ejs")
+        res.render("login.ejs",
+        {fail:req.flash('failure'),
+        exists:req.flash('exists'),
+        newA:req.flash('newAcount'),
+        blank:req.flash('blank'), // no longer need
+        cpuLoggedYouOut:req.flash('out')
+        
+    })
 })
 
 // a post route if you attempt to login.
 app.post('/login/user',(req,res) =>{
+    // doesnt Work will send the flash but the page crashes
+    // if(!req.body.user){
+    //     req.flash('blank', 'user cannot be blank')
+    //     res.redirect('/')
+    // }
 
     User.findOne({user:req.body.user}, (err, person) => {
         
         if(!person){
             // alert('incorrect username or password. Please try again')
-           res.redirect('/login')
+            req.flash('failure', 'Incorrect Username or password. Please try again')
+           res.redirect('/')
         }else if (person){
+            if (bcrypt.compareSync(req.body.password, person.password)) {
             req.session.user = person.user
             req.session.userId = person._id
             res.redirect('/index')
+            } else{
+                req.flash('failure', 'Incorrect Username or password. Please try again')
+                res.redirect('/')
+            }
         }  
     })
 })
 // create a new account
 app.post('/create/user',(req,res) => {
-    // res.send(req.body)
-    User.create( req.body, (err, newUser) => {
+    // does not work
+    // if(!req.body.user){
+    //     req.flash('blank', 'User cannot be blank')
+    //     res.redirect('/')
+    // }
+
+    req.body.password = bcrypt.hashSync(req.body.password, bcrypt.genSaltSync(12))
+
+    User.findOne({user:req.body.user}, (err, alreadyExists) => {
+            // checks if the user exists. if it does it won't be made.
+        if(alreadyExists){
+            req.flash('exists', 'This account already exists, please try again')
             res.redirect('/')
+        }else{
+            User.create( req.body, (err, newUser) => {
+                req.flash('newAcount', ` ${newUser.user} was created! Now you just need to sign in. :)`)
+                res.redirect('/')
+        })
+        }
     })
 })
 
@@ -109,7 +149,9 @@ app.get('/index', (req,res) => {
             id: req.session.userId
         })
     })
-} else {res.send('please log in')} 
+} else {
+    req.flash('out', 'Please sign In')
+        res.redirect('/')} 
 })
 
 
@@ -122,7 +164,8 @@ app.get('/show', (req,res) => {
     if (req.session.user){
         res.render('show.ejs')
     } else {
-        res.send('you are not signed in')
+        req.flash('out', 'Please sign In')
+        res.redirect('/')
     }
 })
 
@@ -134,7 +177,18 @@ app.post('/makePost', (req, res) => {
 // res.send(req.body)
 // creates the post w user and content
     Post.create(req.body, (err,newPost) => {
-        res.redirect('./index')
+
+        // DOES NOT WORK. Should add the post id to the array of the user but does not.
+        //  push and unshift gave errors but splice doesnt giv work 
+        User.findOne({user:newPost.poster}, (err, originalUser) =>  {
+            // console.log(originalUser.posts)
+            // console.log(newPost._id);
+            originalUser.posts.splice(0,0,newPost._id)
+            console.log(originalUser)
+            console.log(originalUser.posts)
+            res.redirect('./index')
+        })
+        
     })
 })
 
@@ -164,3 +218,7 @@ app.delete('/deleteById/:id', (req, res) => {
 //Listener
 //___________________
 app.listen(PORT, () => console.log( 'Listening on port:', PORT));
+
+
+
+
