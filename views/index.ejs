@@ -47,7 +47,6 @@
 
             <!-- needs to be == not === because they're stored differently -->
             <% if (post[i].user == id ) { %>
-                <%= post[i] %>  YOOOOOOOOO
 
             <form action="/edit/poster/<%= post[i].id%>" method="GET">
                 <input type="submit" name="Edit Here" value="Edit">
@@ -61,7 +60,7 @@
         </div>
     <% } %>
  
-    <a href="/edit"> to edit</a>
+    
     
 
 
