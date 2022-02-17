@@ -158,14 +158,22 @@ app.get('/edit' , (req, res) => {
   res.render('edit.ejs');
 });
 
-app.get('/show', (req,res) => {
+app.get('/show/:id',  (req,res) => {
 
     if (req.session.user){
-        res.render('show.ejs')
+        User.findById(req.params.id, (err, account) => {
+            // res.send(account)
+            res.render('show.ejs',{
+                userAccount: account
+            })
+        }).populate('posts')
+            
+       
     } else {
         req.flash('out', 'Please sign In')
         res.redirect('/')
     }
+    
 })
 
 app.post('/makePost', (req, res) => {

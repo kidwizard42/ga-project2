@@ -16,30 +16,59 @@
         <%= newA %>
     </div>
     <h3>Create a user </h3>
-    <form name="createForm" action="/create/user" onsubmit="return validateCreate()" method="POST" >
-        <div>
+    <form name="createForm" action="/create/user"  method="POST" class="validateForm" novalidate  >
+        <div class="form-row">
        <label for="createFormUser"> Username:</label>  
-       <input type="text" name="user" id="createFormUser"> 
+       <input type="text" class="form-control" name="user" id="createFormUser" required> 
         </div>
         <div>
         <label for="createUserPassword"> Password:</label>
-         <input type="password" name="password" id="">
+         <input type="password" class="form-control" name="password" id="" required >
         </div>
-        <input type="submit" name="submit" class="btn btn-primary">
+        <input type="submit" name="submit" class="btn btn-primary" required >
     </form>
 
     <h3>or login</h3>
-    <form name="userForm"  class="userForm" action="/login/user" onsubmit="return validateUser()" method="POST">
-        <div>
-       <label for="userFormName"> Username:</label>  <input type="text" name="user" id=" userFormName"> 
+    <form name="userForm"  class="userForm validateForm" action="/login/user"  method="POST"  novalidate >
+        <div class="form-row">
+       <label for="userFormName"> Username:</label>  <input class="form-control" type="text" name="user" id=" userFormName" required> 
     </div>
     <div>
-        <label for="userFormPassword"> Password:</label>  <input type="password" name="password" id="userFormPassword">
-        <input type="submit" name="submit" id="">
+        <label for="userFormPassword"> Password:</label>  <input class="form-control" type="password" name="password" id="userFormPassword" required>
+        <input type="submit" class="btn btn-primary" name="submit" id="" required >
     </div>
     </form>
 
+
 <script>
+    (function() {
+  'use strict';
+  window.addEventListener('load', function() {
+    // Fetch all the forms we want to apply custom Bootstrap validation styles to
+    let forms = document.getElementsByClassName('validateForm');
+    // Loop over them and prevent submission
+    let validation = Array.prototype.filter.call(forms, function(form) {
+      form.addEventListener('submit', function(event) {
+        if (form.checkValidity() === false) {
+          event.preventDefault();
+          event.stopPropagation();
+        }
+        form.classList.add('was-validated');
+      }, false);
+    });
+  }, false);
+})();
+
+</script>
+</body>
+</html>
+
+    <!-- // THE WAY TO MAKE SURE MY FORM WAS GOOD USING VANILLA JS . GOT FROM W3 SCHOOLS -->
+<!-- <script>
+
+    //  onsubmit="return validateCreate()"
+    // onsubmit="return validateUser()"
+
 //    both do the same thing for diff forms. prevent blank entries from w3 schools
 // when I tried doing an event listener w the same code it did not work.
    function validateCreate() {
@@ -58,7 +87,5 @@ function validateUser() {
   }
 }
 
-</script>
+</script> -->
     
-</body>
-</html>

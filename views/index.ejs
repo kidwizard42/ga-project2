@@ -10,6 +10,9 @@
 </head>
 <body>
     <nav class="main-nav"> <form action="/logout" method="POST"> <input type="submit" name="logout" value="Log Out"></form>  
+        <a href=""></a>
+
+        <a href="/show/<%= id %>"> to show</a>
         </nav>
 
     <h1>welcome, <%= user %> </h1>
@@ -44,6 +47,7 @@
 
             <!-- needs to be == not === because they're stored differently -->
             <% if (post[i].user == id ) { %>
+                <%= post[i] %>  YOOOOOOOOO
 
             <form action="/edit/poster/<%= post[i].id%>" method="GET">
                 <input type="submit" name="Edit Here" value="Edit">
@@ -58,7 +62,7 @@
     <% } %>
  
     <a href="/edit"> to edit</a>
-    <a href="/show"> to show</a>
+    
 
 
     <script

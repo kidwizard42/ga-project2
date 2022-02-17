@@ -8,7 +8,26 @@
     <title>Welcome to show</title>
 </head>
 <body>
+    <nav><a href="/index"> Go back</a></nav>
     <h1>show</h1>
+
+    <div class="yourPosts">
+        <!-- userAccount is the whole user object -->
+<% if (!userAccount.posts.length>=1) { %>
+
+    <p>You have no posts to show now</p>
+ 
+<% }  else{ %>
+
+    <p>Here are your posts</p>
+    <% for ( let i= userAccount.posts.length-1; i>=0; i-- ){ %>
+
+       <div><%=   userAccount.posts[i].content%>  </div>
+
+<%} }%>
+
+    </div>
+
     
 </body>
 </html>
