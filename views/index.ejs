@@ -30,6 +30,16 @@
         <div>
             <%=  post[i].poster %>  :
             <%= post[i].content %>
+
+            <form action="/likes" method="POST">
+                <ion-icon name="arrow-up-circle">
+                 <input type="radio" name="like" id="">
+                </ion-icon>
+                <ion-icon name="arrow-down-circle">
+                    <input type="radio" name="dislike" id="">
+                </ion-icon>
+
+            </form>
             <!-- EDIT POST FORM -->
 
             <!-- needs to be == not === because they're stored differently -->
@@ -49,6 +59,12 @@
  
     <a href="/edit"> to edit</a>
     <a href="/show"> to show</a>
+
+
+    <script
+      type="module"
+      src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"
+    ></script>
     
 </body>
 </html>

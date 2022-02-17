@@ -77,7 +77,6 @@ app.get('/',(req,res) => {
         newA:req.flash('newAcount'),
         blank:req.flash('blank'), // no longer need
         cpuLoggedYouOut:req.flash('out')
-        
     })
 })
 
@@ -182,7 +181,7 @@ app.post('/makePost', (req, res) => {
         //  push and unshift gave errors but splice doesnt giv work 
         // UPDATE PUSH NO LONGER GIVES ME ISSUES BUT STILL NOTHING GETS PUSHED TO MY ARRAY
 
-// uncomment this block
+// decide to delete???
 //         User.findOne({user:newPost.poster}, (err, originalUser) =>  {
 //             // console.log(originalUser.posts)
 //             // console.log(newPost._id);
@@ -195,7 +194,7 @@ app.post('/makePost', (req, res) => {
 //         })
 
 
-        // This array need to be called  finafuckingly
+        //  finafuckingly pushes the post id to the user posts array.
        await User.findOneAndUpdate({user:newPost.poster}, {$push:{posts:newPost._id}})
         res.redirect('/index')
         
