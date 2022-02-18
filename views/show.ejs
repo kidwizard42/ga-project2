@@ -11,8 +11,9 @@
 <body>
     <nav><a class="btn btn-primary" href="/index"> Go back</a></nav>
 
-    <div class="show-container">
+    <div class="show-container text-center ">
     <h1>show</h1>
+   
 
     <div class="yourPosts">
         <!-- userAccount is the whole user object -->
@@ -27,7 +28,7 @@
     <% for ( let i= userAccount.posts.length-1; i>=0; i-- ){ %>
 
       
-       <div class="singlePost shadow p-3  rounded"><%=   userAccount.posts[i].content%>  
+       <div class="singlePost shadow p-3  rounded p-3 mb-2 bg-info text-white"><%=   userAccount.posts[i].content%>  
         
     </div>
 
