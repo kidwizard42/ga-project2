@@ -1,0 +1,111 @@
+/* body{
+    /* background-color: #A799B7; */
+    /* background-color: #F2C57C; */
+    /* background-color: #D8AC9C; 
+}  */
+
+.form-wrapper{
+    width:35%;
+}
+
+.error{
+    color:#FF0000;
+    font-size: 1.3rem;
+}
+.newAccount{
+    /* color:#90EE90; */
+    color: green;
+    font-size: 1.3rem;
+
+}
+
+.container-for-login{
+    padding: 2rem;
+    background-color: whitesmoke;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height:100vh;
+
+}
+
+/* INDEX PAGE SPECIFIC THINGS */
+
+.main-nav{
+    display: flex;
+    flex-direction: column;
+}
+
+.links{
+    width:12%;
+    display: flex;
+    justify-content:space-around;
+    align-self: flex-end;
+}
+.index-header{
+    width: 80%;
+    margin: 0 auto;
+    /* display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center; */
+}
+#textarea{
+    background-color: thistle;
+}
+
+.postContent{
+    width:80%;
+    margin:0 auto;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.singlePost{
+    background-color: #84DFFF;
+    /* background-color: #b7edf7; */
+    /* background-color: #F9C5D5; */
+    font-size: 1.3rem;
+    border:2px solid lightblue;
+    padding:2rem;
+    margin:.5rem;
+    width:40%;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    min-height: 200px;
+
+}
+
+.editAndDelete{
+     width:12%;
+    margin: 0 3px ;
+    display: flex;
+    /* align-self: flex-end; */
+    justify-content: space-around;
+    
+     position: absolute;
+     right:33px;
+     bottom:3px;
+}
+
+.time{
+    position: absolute;
+    bottom:3px;
+    left:3px;
+    /* align-self: flex-start; */
+    font-size: 1rem;
+}
+
+/* styles for the show page */
+
+.show-container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
