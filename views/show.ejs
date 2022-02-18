@@ -13,13 +13,14 @@
 
     <div class="show-container text-center ">
     <h1>show</h1>
-   
 
     <div class="yourPosts">
         <!-- userAccount is the whole user object -->
-<% if (!userAccount) { %>
+        <!-- just found out they are giving me errors but the logic still runs. 
+            just stops the styles from working on page. so bootstrap -->
+<% if (userAccount.posts.length==0) { %>
 
-    <p>You have no posts to show now</p>
+    <p>You have no posts to show </p>
  
 <% }  else{ %>
 <div >

@@ -154,9 +154,9 @@ app.get('/index', (req,res) => {
 })
 
 
-app.get('/edit' , (req, res) => {
-  res.render('edit.ejs');
-});
+// app.get('/edit' , (req, res) => {
+//   res.render('edit.ejs');
+// });
 
 app.get('/show/:id',  (req,res) => {
 

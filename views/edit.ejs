@@ -10,16 +10,19 @@
 </head>
 <body>
    
-    <h1>edit.ejs</h1>
+    <h1>Edit content </h1>
 
     <div class="editPost">
-        <form action="/updatePostById/<%= post.id %>?_method=PUT" method="post"> 
+
+        <!-- getting an error from the id??? not sure why. stops the css from working. -->
+        <form action="/updatePostById/<%= post._id %>?_method=PUT" method="post"> 
 
         <label for="poster"> Edit title:</label>  
         <input type="text" name="poster"  id="poster" value='<%=post.poster%>' > 
         <br>
 
         <label for="content"> Edit content</label>
+        
         <input type="text" name="content" value="<%= post.content %>">
 
         <input type="submit" class="btn btn-primary" name="submit-edit" value="Finish Edit">
